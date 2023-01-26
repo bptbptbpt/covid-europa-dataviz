@@ -3,11 +3,14 @@
     <meta charset="utf8" />
     <title>Atlas: european languages</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="countries_europe.js"></script>
+    <script src="data/europe_countries.json"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet-src.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet-search@2.3.7/dist/leaflet-search.src.css" />
     <script src="https://unpkg.com/leaflet-search@2.3.7/dist/leaflet-search.src.js"></script>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/topojson.v3.min.js"></script>
   </head>
   <body>
     <h1>2021: Excess deaths due to SARS-CoV-2 (COVID-19) in Europe </h1>
@@ -16,25 +19,31 @@
       <div id="map" class="carte-interactive"></div>
       <div class="sidebar">
         <div class="infobox">
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. 
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. 
           Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
           Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
           Add infos about sources and statistics. 
           </p>
+          <div class="casesordeaths">
+            <input class="selector" type="button" value="Cases" id="cases"
+            onclick ="set_choice('cases')" style="font-weight: bold;"/>
+            <input class= "selector" type="button" value="Deaths" id="deaths"
+            onclick ="set_choice('deaths')"/>
+          </div>
+          <div class="graph" id="d3-container"> 
+          </div>
         </div>
         
-          <div>
+          <!-- <div>
               <button class="allbuttons show" id="showTotal" onclick="showTotalFunction()">See deaths per country</button>
           </div>
           <div>
             <button class="reset allbuttons" id="resetButton" onclick="resetFunction()">Reset</button>
-        </div>
-        </div>
+        </div> -->
+      </div>
         <div class="copyright">
           2022 © Melinda Femminis
         </div>
-      </div>
-
     </div>
       
     <script src="index.js"></script>
