@@ -459,19 +459,19 @@ country = d3.selectAll('path')
 // For now this only resets view, will add a function to reset graphs as well.
 
 function reset() {
+
   // Delete dataLayerGroup if it exists
   if (map.hasLayer(dataLayerGroup)) {
     dataLayerGroup.remove();
     }
   countriesLayer.setStyle(standardStyle);
+
   // Reset zoom
   map.setView([55, 12], 3.5);
+
   // Close any open popup
   map.closePopup();
-}
 
-// Add listener to reset button
-function resetFunction(){
-  reset();
-  console.log("Map was reset.");
-  };
+  // Delete d3 graph
+  d3.select('#barplot').remove();
+}
