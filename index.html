@@ -1,50 +1,49 @@
 <html>
   <head>
     <meta charset="utf8" />
-    <title>Atlas: european languages</title>
+    <title>COVID-19: Cases and deaths in Europe</title>
+
+    <!-- Link css and data -->
     <link rel="stylesheet" href="style.css" />
     <script src="data/europe_countries.json"></script>
+    <!-- Link librairies-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet-src.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet-search@2.3.7/dist/leaflet-search.src.css" />
     <script src="https://unpkg.com/leaflet-search@2.3.7/dist/leaflet-search.src.js"></script>
-
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://d3js.org/topojson.v3.min.js"></script>
+
   </head>
   <body>
-    <h1>2021: Excess deaths due to SARS-CoV-2 (COVID-19) in Europe </h1>
+
+    <h1>Deaths and cases of SARS-CoV-2 (COVID-19) in Europe</h1>
         
     <div class="main">
+
+      <!-- div with leaflet map-->
       <div id="map" class="carte-interactive"></div>
+
+      <!-- sidebar, div with buttons and d3 graph -->
       <div class="sidebar">
         <div class="infobox">
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. 
-          Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
-          Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
-          Add infos about sources and statistics. 
-          </p>
-          <div class="casesordeaths">
-            <input class="selector" type="button" value="Cases" id="cases"
-            onclick ="set_choice('cases')" style="font-weight: bold;"/>
-            <input class= "selector" type="button" value="Deaths" id="deaths"
-            onclick ="set_choice('deaths')"/>
+          <p>Click on the countries on the map to see the number of people affected and deaths imputed to COVID-19 per month.</p>
+
+          <!-- div for the three buttons-->
+          <div class="btn-div">
+            <button type="button" class="btn btn-outline-dark" id="cases" onclick ="set_choice('cases')" disabled>Cases</button>
+            <button type="button" class="btn btn-outline-dark" id="deaths" onclick ="set_choice('deaths')" disabled>Deaths</button>
+            <button type="button" class="btn btn-danger" onclick="reset()">Reset</button>
           </div>
-          <div class="graph" id="d3-container"> 
-          </div>
-          <button type="button" class="btn btn-danger" onclick="reset()">Reset</button>
+
+          <div class="graph" id="d3-container"></div>
+          
         </div>
-        
-          <!-- <div>
-              <button class="allbuttons show" id="showTotal" onclick="showTotalFunction()">See deaths per country</button>
-          </div>
-          <div>
-            <button class="reset allbuttons" id="resetButton" onclick="resetFunction()">Reset</button>
-        </div> -->
       </div>
     </div>
       
+    <!-- import js script-->
     <script src="index.js"></script>
   </body>
 </html>
