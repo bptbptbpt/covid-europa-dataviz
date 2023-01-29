@@ -251,6 +251,59 @@ if (to_plot == 'deaths'){
 
 
 
+
+
+////////////////////////////////////////////////////////////////////
+// Choice of what to plot
+////////////////////////////////////////////////////////////////////
+
+function set_choice(value){
+
+  to_plot = value
+
+  // Set font weight on selected button
+  if(to_plot == 'cases'){
+    document.getElementById("cases").style.fontWeight = "bold";
+    document.getElementById("deaths").style.fontWeight = "normal";
+  }
+  else{
+    document.getElementById("cases").style.fontWeight = "normal";
+    document.getElementById("deaths").style.fontWeight = "bold";
+  }
+
+  if (selected_cntry != undefined) {
+    plot_chart()
+  }
+}
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////
+// Histogram plotting
+////////////////////////////////////////////////////////////////////
+
+var test = countries.features.map(function (el) {
+return el.properties.NAME
+});
+
+country = d3.selectAll('path')
+
+
+
+
+
+
+
+
+
+
 //////////////////////////////////////////////////
 //// Popup function
 //////////////////////////////////////////////////
@@ -261,19 +314,15 @@ function onEachFeature(feature, layer) {
 
   // Define popup content 
   var popupContent;
-  if (feature.properties.COVCASES_0121 != 0) {
+  if (feature.properties.COVCASES_0121 != undefined) {
     popupContent = 
-      '<h1>' + feature.properties.NAME + '</h1>' + '\n' +
-      'Total cases due to COVID-19 in 2020: ' + feature.properties.COVCASES_0121 + '</br>' +
-      'Total deaths due to COVID-19 in 2020: ' + feature.properties.COVDEATHS_0121 + '</br>' +
-      'Total cases due to COVID-19 in 2021: ' + feature.properties.COVCASES_0122 + '</br>' +
-      'Total deaths due to COVID-19 in 2021: ' + feature.properties.COVDEATHS_0122 + '</br>' +
-      'Total cases due to COVID-19 in 2022: ' + feature.properties.COVCASES_0123 + '</br>' +
-      'Total deaths due to COVID-19 in 2022: ' + feature.properties.COVDEATHS_0123 + '</br>'
+      '<h4>' + feature.properties.NAME + '</h4>' + '\n' +
+      'There were ' + feature.properties.COVCASES_1222 + ' cases and ' 
+      + feature.properties.COVDEATHS_1222 + ' deaths from COVID-19 in december 2022.'
     } else {
       popupContent =
         '<h1>' + feature.properties.NAME + '</h1>' + '\n' +
-        'Number of COVID-19 deaths unavailable for 2020.'
+        'Statistics are unavailable at the moment.'
     }
   // Add popups to layer
   layer.bindPopup(popupContent)
@@ -321,6 +370,8 @@ info.update = function (props) {
 };
 
 info.addTo(map);
+
+
 
 
 
@@ -376,44 +427,8 @@ L.DomUtil.addClass(searchCountry.getContainer(),'info')
 
 
 
-////////////////////////////////////////////////////////////////////
-// Choice of what to plot
-////////////////////////////////////////////////////////////////////
-
-function set_choice(value){
-
-    to_plot = value
-
-    // Set font weight on selected button
-    if(to_plot == 'cases'){
-      document.getElementById("cases").style.fontWeight = "bold";
-      document.getElementById("deaths").style.fontWeight = "normal";
-    }
-    else{
-      document.getElementById("cases").style.fontWeight = "normal";
-      document.getElementById("deaths").style.fontWeight = "bold";
-    }
-
-    if (selected_cntry != undefined) {
-      plot_chart()
-    }
-}
 
 
-
-
-
-
-
-////////////////////////////////////////////////////////////////////
-// Histogram plotting
-////////////////////////////////////////////////////////////////////
-
-var test = countries.features.map(function (el) {
-  return el.properties.NAME
-});
-
-country = d3.selectAll('path')
 
 
 

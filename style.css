@@ -8,7 +8,7 @@ body {
   position: relative;
 }
 
-.carte-interactive, h1 {
+.carte-interactive, .main-title {
   margin-left: 20px;
 }
 
