@@ -10,6 +10,7 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_
 	maxZoom: 13
 }).addTo(map);
 
+
 var selected_cntry;
 var to_plot = cases;
 var cases_or_deaths;
@@ -18,9 +19,6 @@ set_choice('cases')
 
 var btn_cases = document.getElementById("cases")
 var btn_deaths = document.getElementById("deaths")
-
-
-
 
 
 
@@ -64,18 +62,18 @@ function highlightFeature(e) {
 }
 
 var lastOpen;
-function resetHighlight(e) {
-  var poly = e.target;
-  if (poly._popup.isOpen()) {
-    console.log("Popup is open.")
-    lastOpen = e.target;
-  } else {
-    poly.setStyle(standardStyle);;
-  }
-  if (map.hasLayer(dataLayerGroup)) {
-    dataLayerGroup.bringToFront();
-  }
-}
+// function resetHighlight(e) {
+//   var poly = e.target;
+//   if (poly._popup.isOpen()) {
+//     console.log("Popup is open.")
+//     lastOpen = e.target;
+//   } else {
+//     poly.setStyle(standardStyle);;
+//   }
+//   if (map.hasLayer(dataLayerGroup)) {
+//     dataLayerGroup.bringToFront();
+//   }
+// }
 
 // Onclick function
 function select(e) {
@@ -116,6 +114,9 @@ function plot_chart() {
 
   var index = test.indexOf(selected_cntry);
 
+  labels = ["April 2020","May 2020","June 2020","July 2020","August 2020","September 2020","October 2020","November 2020","December 2020","January 2021","February 2021","Mars 2021","April 2021","May 2021","June 2021","July 2021","August 2021","September 2021","October 2021","November 2021","December 2021","January 2022","February 2022","Mars 2022","April 2022","May 2022","June 2022","July 2022","August 2022","September 2022","October 2022","November 2022","December 2022"]
+
+
   if (to_plot == 'cases'){
     cases_or_deaths = ["COVCASES_0420","COVCASES_0520","COVCASES_0620","COVCASES_0720","COVCASES_0820","COVCASES_0920","COVCASES_1020","COVCASES_1120","COVCASES_1220","COVCASES_0121","COVCASES_0221","COVCASES_0321","COVCASES_0421","COVCASES_0521","COVCASES_0621","COVCASES_0721","COVCASES_0821","COVCASES_0921","COVCASES_1021","COVCASES_1121","COVCASES_1221","COVCASES_0122","COVCASES_0222","COVCASES_0322","COVCASES_0422","COVCASES_0522","COVCASES_0622","COVCASES_0722","COVCASES_0822","COVCASES_0922","COVCASES_1022","COVCASES_1122","COVCASES_1222","COVCASES_0123"]
   } 
@@ -125,23 +126,24 @@ function plot_chart() {
 
   var data_chart = [];
   var data_chart_sum = [];
+  var data_temp = [];
 
   for (i in cases_or_deaths){
     var val = countries.features[index].properties[cases_or_deaths[i]]
-    data_chart_sum.push(val)
+    if (parseInt(i) < 33){
+      data_chart_sum.push(val)
+    }
+    data_temp.push(val)
   }
 
-  for (i in data_chart_sum){
+  for (i in data_temp){
     if (parseInt(i) < 33){
-      data_chart.push(data_chart_sum[parseInt(i)+1] - data_chart_sum[i])
+      data_chart.push(data_temp[parseInt(i)+1] - data_temp[i])
     }
   }
 
-  labels = ["Avril 2020","Mai 2020","Juin 2020","Juillet 2020","Aout 2020","Septembre 2020","Octobre 2020","Novembre 2020","Decembre 2020","Janvier 2021","Fevrier 2021","Mars 2021","Avril 2021","Mai 2021","Juin 2021","Juillet 2021","Aout 2021","Septembre 2021","Octobre 2021","Novembre 2021","Decembre 2021","Janvier 2022","Fevrier 2022","Mars 2022","Avril 2022","Mai 2022","Juin 2022","Juillet 2022","Aout 2022","Septembre 2022","Octobre 2022","Novembre 2022","Decembre 2022"]
-
-
-
-
+  
+console.log(data_chart_sum)
 
 
 
@@ -149,8 +151,8 @@ function plot_chart() {
 //// D3 chart affichage
 //////////////////////////////////////////////////
 
-let margin = {top: 40, right: 30, bottom: 80, left: 65};
-let width = 420 - margin.left - margin.right;
+let margin = {top: 40, right: 90, bottom: 100, left: 80};
+let width = 500 - margin.left - margin.right;
 let height = 500 - margin.top - margin.bottom;
 
 var svg = d3.select("#d3-container")
@@ -167,28 +169,33 @@ let x = d3.scalePoint()
         .domain(labels)
         .range([0, width])
         
-
 //Echelle des Y 
 let y = d3
    .scaleLinear()
    .range([height, 0])
    .domain([0, d3.max(data_chart)])
 
+//Echelle des Y 
+let y2 = d3
+   .scaleLinear()
+   .range([height, 0])
+   .domain([0, d3.max(data_temp)])
+
 if (to_plot == 'cases'){
   svg.append("text")
-     .attr("x", 0)
+     .attr("x", width/2)
      .attr("y", 0-(margin.top/2))
-     //.attr("text-anchor", "center")
-     .style("font-size", "12px")
+     .attr("text-anchor", "middle")
+     .style("font-size", "14px")
      .style("font-weight", "bold")
      .text("Number of new cases by month in "+ selected_cntry)
  }
 if (to_plot == 'deaths'){
   svg.append("text")
-     .attr("x", 0)
+     .attr("x", width/2)
      .attr("y", 0-(margin.top/2))
-     //.attr("text-anchor", "center")
-     .style("font-size", "12px")
+     .attr("text-anchor", "middle")
+     .style("font-size", "14px")
      .style("font-weight", "bold")
      .text("Number of new deaths by month in "+ selected_cntry)
 }
@@ -213,35 +220,119 @@ if (to_plot == 'deaths'){
        .attr("height", function(d){
         return height - y(d)
        })
-       .style("fill", "#69b3a2")
+       .style("fill", "#7adbdb")
        .on("mouseover", function() {
-          svg.append("text")
-             .attr("x", 20)
-             .attr("y", 20)
-             .attr("class", "label_text")
-             .style("font-size", "15px")
-             .style("font-weight", "bold")
-             .text(labels[this.getAttribute("id")])
+      
+          d3.select(this).style("fill", "red")
+          d3.select("#t_id"+this.getAttribute("id")).style("font-size", 12).style("font-weight", "bold")
+          if (parseInt(this.getAttribute("id")) < 33){
+            d3.select("#t_id"+(parseInt(this.getAttribute("id"))+1)).style("font-size", 0)
+          }
+          if (parseInt(this.getAttribute("id")) > 0){
+            d3.select("#t_id"+(parseInt(this.getAttribute("id"))-1)).style("font-size", 0)
+          }
         })
+
        .on("mouseout", function() {
             document.querySelectorAll(".label_text").forEach(e => e.remove());
+            d3.select(this).style("fill", "#7adbdb");
+            d3.select("#t_id"+this.getAttribute("id")).style("font-size", 8).style("font-weight", "normal")
+          if (parseInt(this.getAttribute("id")) < 33){
+            d3.select("#t_id"+(parseInt(this.getAttribute("id"))+1)).style("font-size", 8)
+          }
+          if (parseInt(this.getAttribute("id")) > 0){
+            d3.select("#t_id"+(parseInt(this.getAttribute("id"))-1)).style("font-size", 8)
+          }
           });
+
+// Define the line path
+var lineGenerator = d3.line()
+  .x(function(d,i){ return x(labels[i]) })
+  .y(function(d){ return y2(d)})
+  .curve(d3.curveBasis)
+
+svg.append("path")
+   .attr('class', 'line-path')
+   .attr('d', lineGenerator(data_chart_sum))
 
 // Ajouter axe X
   svg.append("g")
-     .style("font-size", 8)
      .attr("transform", "translate(3.5," + height +")")
      .call(d3.axisBottom(x)
              .tickPadding(0))
      .selectAll("text")
+     .attr('id', function(d,i){
+        return ('t_id'+i)
+       })
+     .style("font-size", 8)
+     .style("font-weight", 'normal')
      .attr("transform", "translate(-7,2)rotate(-45)")
      .style("text-anchor", "end")
-     ;
+     
+  svg.append("text")
+     .attr("class", "x label")
+     .attr("text-anchor", "middle")
+     .attr("x", width/2)
+     .attr("y", height + margin.top + margin.bottom/2 + 7)
+     .style("font-size", 14)
+     .text("Month and year")
+     
 
-// Ajouter axe Y
+// Ajouter axe Y principal
   svg.append("g")
      .call(d3.axisLeft(y))
-     .attr("id", "Yaxis");
+     .attr("id", "Yaxis_1st");
+
+if (to_plot == 'cases'){
+  svg.append("text")
+   .attr("class", "y label")
+   .attr("text-anchor", "middle")
+   .attr("x", -height/2)
+   .attr("y", -60)
+   .attr("transform", "rotate(-90)")
+   .style("font-size", 14)
+   .text("Number of cases by month")
+}
+
+if (to_plot == 'deaths'){
+  svg.append("text")
+   .attr("class", "y label")
+   .attr("text-anchor", "middle")
+   .attr("x", -height/2)
+   .attr("y", -60)
+   .attr("transform", "rotate(-90)")
+   .style("font-size", 14)
+   .text("Number of deaths by month")
+}
+
+// Ajouter axe Y secondaire
+  svg.append("g")
+     .attr("transform", "translate(340,0)")
+     .call(d3.axisRight(y2))
+     .attr("id", "Yaxis_2nd");
+
+if (to_plot == 'cases'){
+    svg.append("text")
+     .attr("class", "y2 label")
+     .attr("text-anchor", "middle")
+     .attr("x", -height/2)
+     .attr("y", width+margin.right-5)
+     .attr("transform", "rotate(-90)")
+     .style("font-size", 14)
+     .text("Total of cases")
+}
+
+if (to_plot == 'deaths'){
+    svg.append("text")
+     .attr("class", "y2 label")
+     .attr("text-anchor", "middle")
+     .attr("x", -height/2)
+     .attr("y", width+margin.right-5)
+     .attr("transform", "rotate(-90)")
+     .style("font-size", 14)
+     .text("Total of deaths")
+}
+
 
 }
 
@@ -329,7 +420,7 @@ function onEachFeature(feature, layer) {
   // Add events functions
   layer.on({
       mouseover: highlightFeature,
-      mouseout: resetHighlight,
+//      mouseout: resetHighlight,
       click: select
   });
 }
