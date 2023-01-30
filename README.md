@@ -29,6 +29,7 @@ Here are the different ways users can interact with the map:
 	- either by clicking on it
 	- or by search for it with the serach box on the left
 - switch between cases and deaths to see the corresponding barplot
+- hover on the bars to highlight a particular month
 - Reset everything with a button
 
 ![](img/project_2.png)

@@ -28,15 +28,17 @@
       <!-- sidebar, div with buttons and d3 graph -->
       <div class="sidebar">
         <div class="infobox">
+          <br>
           <p>Click on the countries on the map to see the number of people affected and deaths imputed to COVID-19 per month.</p>
 
+          <hr>
           <!-- div for the three buttons-->
           <div class="btn-div">
             <button type="button" class="btn btn-outline-dark" id="cases" onclick ="set_choice('cases')" disabled>Cases</button>
             <button type="button" class="btn btn-outline-dark" id="deaths" onclick ="set_choice('deaths')" disabled>Deaths</button>
             <button type="button" class="btn btn-danger" onclick="reset()">Reset</button>
           </div>
-
+          <br>
           <div class="graph" id="d3-container"></div>
           
         </div>

@@ -62,18 +62,19 @@ function highlightFeature(e) {
 }
 
 var lastOpen;
-// function resetHighlight(e) {
-//   var poly = e.target;
-//   if (poly._popup.isOpen()) {
-//     console.log("Popup is open.")
-//     lastOpen = e.target;
-//   } else {
-//     poly.setStyle(standardStyle);;
-//   }
-//   if (map.hasLayer(dataLayerGroup)) {
-//     dataLayerGroup.bringToFront();
-//   }
-// }
+
+function resetHighlight(e) {
+  var poly = e.target;
+  if (poly._popup.isOpen()) {
+    console.log("Popup is open.")
+    lastOpen = e.target;
+  } else {
+    poly.setStyle(standardStyle);;
+  }
+  if (map.hasLayer(dataLayerGroup)) {
+    dataLayerGroup.bringToFront();
+  }
+}
 
 // Onclick function
 function select(e) {
@@ -420,7 +421,7 @@ function onEachFeature(feature, layer) {
   // Add events functions
   layer.on({
       mouseover: highlightFeature,
-//      mouseout: resetHighlight,
+      mouseout: resetHighlight,
       click: select
   });
 }
